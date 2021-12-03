@@ -1,2 +1,10 @@
-# Spark-Shortest-Paths-in-a-Graph
-Write a Spark solution to finding the length of the shortest paths from a specified source node (given as a command line argument) in a graph to all other nodes and also return the length of the longest shortest path from that vertex. . Then extend the solution to compute the diameter of the graph, aka “degrees of separation.” The diameter is the length of the longest shortest path over al  vertices in the graph.
+# Movie data mining
+Starting with a collection of movie ratings from users, come up with at least three interesting
+trends. Here are some examples.
+
+What are k most popular movies of all time?
+What are k most popular movies for a particular year?
+What are k most popular movies for a certain age group?
+What are k most popular movies for particular season (summer, fall, winter, spring)?
+What are the top k movies with the most ratings (presumably most popular) that have the lowest ratings?
+and more…
