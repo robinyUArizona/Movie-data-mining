@@ -1,5 +1,11 @@
 
 
+# Reference: https://medium.com/analytics-vidhya/movie-lens-data-analysis-using-pyspark-for-beginners-9c0f5f21eaf5
+# Reference: https://towardsdatascience.com/data-science-over-the-movies-dataset-with-spark-scala-and-some-sql-and-some-python-part-1-f5fd4ee8509e
+# Reference: https://www.ijrte.org/wp-content/uploads/papers/v7i5s2/ES2097017519.pdf
+# Reference: 
+
+
 from pyspark.sql import SparkSession
 spark = SparkSession.builder.appName("P4Trends").getOrCreate()
 
