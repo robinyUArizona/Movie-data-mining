@@ -118,13 +118,28 @@ movies_ratings_age = users_ratings_movies.groupBy(['Age', 'movieID', 'MovieName'
 # movies_ratings_age.show()
 
 movies_ratings_age_25 = movies_ratings_age[movies_ratings_age["Age"] == 25]
-movies_ratings_age_25.show()
-
-
-
+# movies_ratings_age_25.show()
 
 
 # What are k most popular movies for particular season (summer, fall, winter, spring)?
+
+movies_ratings = movies_ratings.withColumn("Month", month(col("Timestamp")))
+# movies_ratings.show()
+
+import calendar
+from pyspark.sql import functions as F
+month_name = F.udf(lambda x: calendar.month_name[int(x)])
+
+movies_ratings = movies_ratings.withColumn("Month_Name", month_name(F.col("Month")))
+# movies_ratings.show()
+
+
+
+print("==== k most popular movies for a particular month - season ====")
+
+
+
+
 # What are the top k movies with the most ratings (presumably most popular) that have the lowest ratings?
 
 
