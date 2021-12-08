@@ -9,7 +9,7 @@ import datetime
 from pyspark import sql
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col
-from pyspark.sql.types import IntegerType, BooleanType, DateType, StringType
+from pyspark.sql.types import DoubleType, IntegerType, BooleanType, DateType, StringType
 from pyspark.sql.functions import lit, unix_timestamp
 from pyspark.sql.functions import year, month, dayofmonth
 
@@ -44,7 +44,13 @@ timestamp = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%
 ratings1M = ratings1M.withColumn("userID", col("userID").cast(IntegerType())) \
         .withColumn("movieID", col("movieID").cast(IntegerType())) \
         .withColumn("Rating", col("Rating").cast(IntegerType())) \
-        .withColumn("Timestamp", unix_timestamp(lit(timestamp),'yyyy-MM-dd HH:mm:ss').cast("timestamp"))
+        .withColumn("Timestamp", col("Timestamp").cast(DoubleType()))
+
+
+
+from pyspark.sql import functions as f
+from pyspark.sql import types as t
+ratings1M = ratings1M.withColumn('epoch', f.date_format(ratings1M.Timestamp.cast(dataType=t.TimestampType()), "yyyy-MM-dd"))
 
 # ratings1M.show(5)
 # ratings1M.printSchema()
@@ -74,6 +80,7 @@ movies_ratings = movies1M.join(ratings1M, movies1M.movieID == ratings1M.movieID,
 # movies_ratings.show(truncate=False)
 
 
+
 ## Join ratings and users, key is userID
 users_ratings = users1M.join(ratings1M, users1M.userID == ratings1M.userID, "outer") \
     .drop(ratings1M.userID)
@@ -85,14 +92,14 @@ movies_ratings_avg = movies_ratings.groupBy(['movieID', 'MovieName'])\
     .avg('Rating')\
     .sort(col("avg(Rating)") \
     .desc())
-print("==== k most popular movies of all time ====")
+print("==== k highest average rated movies of all time ====")
 # movies_ratings_avg.show()
 
 
 # What are k most popular movies for a particular year?
-movies_ratings = movies_ratings.withColumn("Year", year(col("Timestamp")))
+movies_ratings = movies_ratings.withColumn("Year", year(col("epoch")))
 
-print("==== k most popular movies for a particular year ====")
+print("==== k highest averaged rated movies for a particular year ====")
 movies_ratings_year = movies_ratings.groupBy(['Year', 'movieID', 'MovieName']) \
     .avg('Rating')\
     .sort(col("avg(Rating)") \
@@ -100,8 +107,8 @@ movies_ratings_year = movies_ratings.groupBy(['Year', 'movieID', 'MovieName']) \
 
 # movies_ratings_year.show()
 
-movies_ratings_year_2021 = movies_ratings_year[movies_ratings_year["Year"] == 2021]
-# movies_ratings_year_2021.show()
+movies_ratings_year_2000 = movies_ratings_year[movies_ratings_year["Year"] == 2000]
+# movies_ratings_year_2000.show()
 
 
 # What are k most popular movies for a certain age group?
@@ -109,7 +116,7 @@ users_ratings_movies = users_ratings.join(movies1M, users_ratings.movieID == mov
     "outer").drop(movies1M.movieID)
 # users_ratings_movies.show()
 
-print("==== k most popular movies for a certain age group ====")
+print("==== k highest averaged rated movies for a certain age group ====")
 movies_ratings_age = users_ratings_movies.groupBy(['Age', 'movieID', 'MovieName']) \
     .avg('Rating')\
     .sort(col("avg(Rating)") \
@@ -122,20 +129,53 @@ movies_ratings_age_25 = movies_ratings_age[movies_ratings_age["Age"] == 25]
 
 
 # What are k most popular movies for particular season (summer, fall, winter, spring)?
+print("==== k highest averaged rated movies for a particular month - season ====")
 
-movies_ratings = movies_ratings.withColumn("Month", month(col("Timestamp")))
+movies_ratings = movies_ratings.withColumn("Month", month(col("epoch")))
 # movies_ratings.show()
 
-import calendar
 from pyspark.sql import functions as F
-month_name = F.udf(lambda x: calendar.month_name[int(x)])
-
-movies_ratings = movies_ratings.withColumn("Month_Name", month_name(F.col("Month")))
-# movies_ratings.show()
-
+# movies_ratings.select(F.col('Month')).distinct().show()
+movies_ratings = movies_ratings.fillna(12, subset=['Month'])
+# movies_ratings.select(F.col('Month')).distinct().show()
 
 
-print("==== k most popular movies for a particular month - season ====")
+def season(x):
+    if x == 3 or x == 4 or x == 5:
+        return 'spring'
+    elif x == 6 or x == 7 or x == 8:
+        return 'summer'
+    elif x == 9 or x == 10 or x == 11:
+        return 'fall'
+    else:
+        return 'winter' 
+season_udf = F.udf(season)
+movies_ratings = movies_ratings.withColumn("Season", season_udf(col("Month")))
+## check for season category
+# movies_ratings.select(F.col('Season')).distinct().show()
+
+movies_ratings_season = movies_ratings.groupBy(['Season', 'movieID', 'MovieName']) \
+    .avg('Rating')\
+    .sort(col("avg(Rating)") \
+    .desc())
+
+# movies_ratings_season.show()
+
+movies_ratings_season_winter = movies_ratings_season[movies_ratings_season["Season"] == 'winter']
+movies_ratings_season_winter.show()
+
+
+
+
+# # print(movies_ratings.count())
+# # print(users1M.count())
+# # print(users_ratings.count())
+# # print(ratings1M.count())
+
+
+
+
+
 
 
 
