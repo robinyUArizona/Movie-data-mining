@@ -37,15 +37,10 @@ ratings1M = spark.read.option("delimiter", "::").csv(ratings_file_location)\
     .withColumnRenamed("_c2", "Rating") \
     .withColumnRenamed("_c3", "Timestamp")
 
-
-
-timestamp = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
-
 ratings1M = ratings1M.withColumn("userID", col("userID").cast(IntegerType())) \
         .withColumn("movieID", col("movieID").cast(IntegerType())) \
         .withColumn("Rating", col("Rating").cast(IntegerType())) \
         .withColumn("Timestamp", col("Timestamp").cast(DoubleType()))
-
 
 
 from pyspark.sql import functions as f
@@ -163,6 +158,7 @@ movies_ratings_season = movies_ratings.groupBy(['Season', 'movieID', 'MovieName'
 
 movies_ratings_season_winter = movies_ratings_season[movies_ratings_season["Season"] == 'winter']
 movies_ratings_season_winter.show()
+
 
 
 
