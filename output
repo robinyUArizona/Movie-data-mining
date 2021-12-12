@@ -1,0 +1,83 @@
+==== k highest average rated movies of all time ====                            
++-------+--------------------+-----------+                                      
+|movieID|           MovieName|avg(Rating)|
++-------+--------------------+-----------+
+|   3607|One Little Indian...|        5.0|
+|   3172|Ulysses (Ulisse) ...|        5.0|
+|    989|Schlafes Bruder (...|        5.0|
+|    787|Gate of Heavenly ...|        5.0|
+|   1830|Follow the Bitch ...|        5.0|
+|   3382|Song of Freedom (...|        5.0|
+|   3656|        Lured (1947)|        5.0|
+|   3233|Smashing Time (1967)|        5.0|
+|   3881|Bittersweet Motel...|        5.0|
+|   3280|    Baby, The (1973)|        5.0|
++-------+--------------------+-----------+
+only showing top 10 rows
+
+==== k highest averaged rated movies for a particular year ====
++----+-------+--------------------+-----------+                                 
+|Year|movieID|           MovieName|avg(Rating)|
++----+-------+--------------------+-----------+
+|2000|    578|Hour of the Pig, ...|        5.0|
+|2000|    787|Gate of Heavenly ...|        5.0|
+|2000|   3280|    Baby, The (1973)|        5.0|
+|2000|   3382|Song of Freedom (...|        5.0|
+|2000|   3233|Smashing Time (1967)|        5.0|
+|2000|    989|Schlafes Bruder (...|        5.0|
+|2000|   3172|Ulysses (Ulisse) ...|        5.0|
+|2000|   3881|Bittersweet Motel...|        5.0|
+|2000|   1830|Follow the Bitch ...|        5.0|
+|2000|   3656|        Lured (1947)|        5.0|
++----+-------+--------------------+-----------+
+only showing top 10 rows
+
+==== k highest averaged rated movies for a certain age group ====
++---+-------+--------------------+-----------+                                  
+|Age|movieID|           MovieName|avg(Rating)|
++---+-------+--------------------+-----------+
+| 25|   3232|Seven Chances (1925)|        5.0|
+| 25|   2823|Spiders, The (Die...|        5.0|
+| 25|   2466|Belizaire the Caj...|        5.0|
+| 25|   1420|Message to Love: ...|        5.0|
+| 25|   1795|Callej�n de los m...|        5.0|
+| 25|   3172|Ulysses (Ulisse) ...|        5.0|
+| 25|    787|Gate of Heavenly ...|        5.0|
+| 25|    167|Feast of July (1995)|        5.0|
+| 25|   3640|King in New York,...|        5.0|
+| 25|   2358|       Savior (1998)|        5.0|
++---+-------+--------------------+-----------+
+only showing top 10 rows
+
++---+------+------+--------------------+----------+                             
+|Age|Gender| count|        Rating_ratio|Percentage|
++---+------+------+--------------------+----------+
+| 25|     M|304216| 0.30415243214168236|       0.3|
+| 35|     M|149530| 0.14949875476025512|      0.15|
+| 18|     M|138109| 0.13808014125047866|      0.14|
+| 25|     F| 91340| 0.09132091392898885|      0.09|
+| 45|     M| 59523| 0.05951056229248087|      0.06|
+| 50|     M| 54426| 0.05441462734288534|      0.05|
+| 35|     F| 49473| 0.04946266230357855|      0.05|
+| 18|     F| 45427| 0.04541750774088216|      0.05|
+| 56|     M| 29581|0.029574818862857663|      0.03|
+| 45|     F| 24110|0.024104962062928847|      0.02|
++---+------+------+--------------------+----------+
+only showing top 10 rows
+
+==== k highest averaged rated movies for a particular month - season ====
++------+-------+--------------------+-----------+                               
+|Season|movieID|           MovieName|avg(Rating)|
++------+-------+--------------------+-----------+
+|winter|   3314|Big Trees, The (1...|        5.0|
+|winter|   2847|Only Angels Have ...|        5.0|
+|winter|    128|Jupiter's Wife (1...|        5.0|
+|winter|    787|Gate of Heavenly ...|        5.0|
+|winter|   2760|Gambler, The (A J...|        5.0|
+|winter|   3003|Train of Life (Tr...|        5.0|
+|winter|    578|Hour of the Pig, ...|        5.0|
+|winter|   3092|  Chushingura (1962)|        5.0|
+|winter|   3888|Skipped Parts (2000)|        5.0|
+|winter|   3280|    Baby, The (1973)|        5.0|
++------+-------+--------------------+-----------+
+only showing top 10 rows
